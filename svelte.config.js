@@ -8,7 +8,7 @@ const config = {
 		// SPA: `index.html` is the fallback for every route, resolved client-side.
 		adapter: adapter({ fallback: 'index.html', strict: false }),
 		// Relative asset paths so the build also works served from any subpath.
-		paths: { relative: true }
+		paths: { base: process.env.GITHUB_PAGES ? '/gsaVault' : '', relative: true }
 	}
 };
 
