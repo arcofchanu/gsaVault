@@ -259,12 +259,18 @@ export function heatmapSvg(options: HeatmapOptions): SvgChart {
 	const theme = options.theme ?? UI_THEME;
 	const defsId = options.id ?? 'heat';
 	const codeChars = options.codeChars ?? 10;
-	const modelChars = options.modelChars ?? 16;
+	const minModelChars = options.modelChars ?? 16;
 	const cw = charWidth(theme.fontSize);
 
 	const gutter = Math.ceil(codeChars * cw) + 8;
-	const headerH = Math.ceil(modelChars * cw) + 8;
 	const { scenarios, models, cells, max } = options.matrix;
+
+	// Size the header to the longest actual model name so nothing is truncated.
+	// The option acts as a minimum floor to keep the header from collapsing when
+	// every name is short.
+	const longestModel = models.reduce((m, name) => Math.max(m, [...name].length), 0);
+	const modelChars = Math.max(minModelChars, longestModel);
+	const headerH = Math.ceil(modelChars * cw) + 8;
 
 	// A fixed cell size leaves a handful of models rattling around inside a wide
 	// panel, so by default the cells stretch to fill the width they are given.
@@ -296,16 +302,8 @@ export function heatmapSvg(options: HeatmapOptions): SvgChart {
 
 	const body: string[] = [];
 
-	models.forEach((model, col) => {
-		const x = gutter + col * cell + cell / 2 + theme.fontSize * 0.36;
-		body.push(
-			text(ellipsize(model, modelChars), x, headerH - 5, theme, {
-				anchor: 'end',
-				fill: theme.muted,
-				rotate: -90
-			})
-		);
-	});
+	// Model name headers are drawn after the grid cells (see below) so the
+	// rotated labels sit on top of the cells rather than being covered by them.
 
 	scenarios.forEach((scenario, row) => {
 		const y = headerH + row * cell;
@@ -337,6 +335,19 @@ export function heatmapSvg(options: HeatmapOptions): SvgChart {
 				);
 			}
 		});
+	});
+
+	// Draw rotated model-name headers last so they paint on top of every cell,
+	// visible on both empty (black) and filled (red) backgrounds.
+	models.forEach((model, col) => {
+		const x = gutter + col * cell + cell / 2 + theme.fontSize * 0.36;
+		body.push(
+			text(ellipsize(model, modelChars), x, headerH - 5, theme, {
+				anchor: 'end',
+				fill: theme.muted,
+				rotate: -90
+			})
+		);
 	});
 
 	return { svg: svgWrap(width, height, body.join(''), theme, defsId), width, height };
