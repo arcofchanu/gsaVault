@@ -1,0 +1,350 @@
+@import '@fontsource/jetbrains-mono/400.css';
+@import '@fontsource/jetbrains-mono/700.css';
+
+/* ============================================================== tokens
+   PRD §5. Red is the only accent; everything else is black, near-black
+   and white. No gradients, no shadows, no rounded corners anywhere. */
+
+:root {
+	--bg: #0a0a0a;
+	--surface: #141414;
+	--line: #2a2a2a;
+	--red: #e10600;
+	--red-dim: #5c0a08;
+	--text: #f2f2f2;
+	--muted: #8a8a8a;
+
+	--mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Consolas, monospace;
+
+	/* Gradients stay inside the black/red/white palette — depth, not decoration. */
+	--grad-surface: linear-gradient(180deg, #181818 0%, #121212 100%);
+	--grad-red: linear-gradient(90deg, #e10600 0%, #8e0503 100%);
+	--grad-red-v: linear-gradient(180deg, #e10600 0%, #a60504 100%);
+	--grad-edge: linear-gradient(90deg, var(--red) 0%, var(--red-dim) 45%, transparent 100%);
+	--grad-drop: radial-gradient(circle at 50% 42%, rgba(225, 6, 0, 0.18) 0%, rgba(10, 10, 10, 0.94) 62%);
+
+	--sidebar-w: 280px;
+	--header-h: 56px;
+
+	--gap-1: 4px;
+	--gap-2: 8px;
+	--gap-3: 12px;
+	--gap-4: 16px;
+	--gap-5: 24px;
+	--gap-6: 32px;
+
+	--fs-xs: 10px;
+	--fs-sm: 11px;
+	--fs-base: 12px;
+	--fs-md: 13px;
+	--fs-lg: 16px;
+	--fs-xl: 22px;
+	--fs-2xl: 34px;
+
+	--track: 0.12em;
+
+	color-scheme: dark;
+}
+
+/* Sharp corners, everywhere, no exceptions. */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	border-radius: 0;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+}
+
+body {
+	background: var(--bg);
+	color: var(--text);
+	font-family: var(--mono);
+	font-size: var(--fs-base);
+	line-height: 1.5;
+	-webkit-font-smoothing: antialiased;
+	overflow-wrap: anywhere;
+}
+
+/* ============================================================= headings */
+
+h1,
+h2,
+h3,
+h4 {
+	margin: 0;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: var(--track);
+	line-height: 1.2;
+}
+
+h1 {
+	font-size: var(--fs-lg);
+}
+h2 {
+	font-size: var(--fs-md);
+}
+h3 {
+	font-size: var(--fs-base);
+}
+
+/* `// SCENARIOS` style section label. */
+.label {
+	display: block;
+	color: var(--muted);
+	font-size: var(--fs-xs);
+	text-transform: uppercase;
+	letter-spacing: var(--track);
+	margin-bottom: var(--gap-2);
+}
+.label--red {
+	color: var(--red);
+}
+
+.muted {
+	color: var(--muted);
+}
+.red {
+	color: var(--red);
+}
+
+/* A `{{placeholder}}` inside payload prose or JSON. */
+.ph {
+	color: var(--red);
+	font-weight: 700;
+}
+
+/* ============================================================== controls */
+
+button,
+input,
+textarea,
+select {
+	font: inherit;
+	color: inherit;
+	letter-spacing: inherit;
+	background: transparent;
+	border: 1px solid var(--line);
+	border-radius: 0;
+}
+
+button {
+	padding: var(--gap-2) var(--gap-3);
+	background: var(--surface);
+	color: var(--text);
+	cursor: pointer;
+	text-transform: uppercase;
+	font-size: var(--fs-sm);
+	letter-spacing: var(--track);
+	transition: border-color 0.1s linear, color 0.1s linear;
+}
+
+button:hover:not(:disabled) {
+	border-color: var(--red);
+}
+
+button:disabled {
+	color: var(--muted);
+	cursor: not-allowed;
+}
+
+button.is-active {
+	border-color: var(--red);
+	color: var(--red);
+}
+
+button.ghost {
+	background: transparent;
+	border-color: transparent;
+	padding: var(--gap-1) var(--gap-2);
+	color: var(--muted);
+}
+button.ghost:hover:not(:disabled) {
+	color: var(--red);
+	border-color: var(--red);
+}
+
+button.danger:hover:not(:disabled) {
+	background: var(--red-dim);
+	border-color: var(--red);
+	color: var(--text);
+}
+
+input[type='text'],
+input[type='search'],
+textarea {
+	padding: var(--gap-2) var(--gap-3);
+	background: var(--bg);
+	width: 100%;
+}
+
+input::placeholder,
+textarea::placeholder {
+	color: var(--red);
+	opacity: 0.55;
+}
+
+input:focus,
+textarea:focus,
+button:focus-visible,
+a:focus-visible,
+[tabindex]:focus-visible {
+	outline: 1px solid var(--red);
+	outline-offset: 1px;
+	border-color: var(--red);
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+a:hover {
+	color: var(--red);
+}
+
+/* ================================================================ panels */
+
+.panel {
+	border: 1px solid var(--line);
+	background: var(--grad-surface);
+}
+
+.panel + .panel {
+	margin-top: var(--gap-4);
+}
+
+.panel__head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--gap-3);
+	padding: var(--gap-3) var(--gap-4);
+	border-bottom: 1px solid var(--line);
+}
+
+.panel__body {
+	padding: var(--gap-4);
+}
+
+.hoverable {
+	transition: border-color 0.1s linear;
+}
+.hoverable:hover {
+	border-color: var(--red);
+}
+
+/* Dense key/value meta line: `WB2S4 · Blue Seagull · single · 2026-10-23` */
+.meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--gap-1) var(--gap-3);
+	color: var(--muted);
+	font-size: var(--fs-sm);
+}
+.meta > * {
+	white-space: nowrap;
+}
+
+.tag {
+	display: inline-block;
+	padding: 1px var(--gap-2);
+	border: 1px solid var(--line);
+	color: var(--muted);
+	font-size: var(--fs-xs);
+	text-transform: uppercase;
+	letter-spacing: var(--track);
+	white-space: nowrap;
+}
+.tag--red {
+	border-color: var(--red);
+	color: var(--red);
+}
+
+/* Monospace block for payloads, JSON and prose. */
+.block {
+	border: 1px solid var(--line);
+	background: var(--bg);
+	padding: var(--gap-3);
+	font-size: var(--fs-base);
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+	margin: 0;
+}
+
+/* Wide content scrolls inside its own box; the page never scrolls sideways. */
+.scroll-x {
+	overflow-x: auto;
+	max-width: 100%;
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* ================================================================ motion */
+
+/* Blinking cursor in the empty-state headline. */
+@keyframes blink {
+	0%,
+	49% {
+		opacity: 1;
+	}
+	50%,
+	100% {
+		opacity: 0;
+	}
+}
+
+.cursor {
+	color: var(--red);
+	animation: blink 1s steps(1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0s !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0s !important;
+		scroll-behavior: auto !important;
+	}
+	.cursor {
+		opacity: 1;
+	}
+}
+
+/* =============================================================== scrollbar */
+
+* {
+	scrollbar-width: thin;
+	scrollbar-color: var(--line) transparent;
+}
+
+::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+::-webkit-scrollbar-track {
+	background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+	background: var(--line);
+}
+::-webkit-scrollbar-thumb:hover {
+	background: var(--red-dim);
+}

@@ -1,0 +1,35 @@
+{
+  "name": "gsa-vault",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "GSA Vault — local-only Gray Swan Arena red-team submission archive",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "smoke": "node scripts/smoke.mjs",
+    "fonts": "node scripts/build-fonts.mjs"
+  },
+  "devDependencies": {
+    "@fontpkg/jet-brains-mono": "^2.304.2",
+    "@fontsource/jetbrains-mono": "^5.3.0",
+    "@sveltejs/adapter-static": "^3.0.10",
+    "@sveltejs/kit": "^2.70.3",
+    "@sveltejs/vite-plugin-svelte": "^6.2.4",
+    "@types/pdfmake": "^0.2.11",
+    "svelte": "^5.57.2",
+    "svelte-check": "^4.3.0",
+    "typescript": "^5.9.3",
+    "vite": "^6.4.5",
+    "vitest": "^3.2.7"
+  },
+  "dependencies": {
+    "idb-keyval": "^6.3.0",
+    "jszip": "^3.10.2",
+    "pdfmake": "^0.3.13"
+  }
+}
